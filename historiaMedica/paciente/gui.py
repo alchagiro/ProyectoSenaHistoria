@@ -365,14 +365,14 @@ class Frame(tk.Frame):
                 pdf_filename = "historiasPdf/historia_medica_{}.pdf".format(datos[0])  # Usar la fecha como nombre del archivo
                 c = canvas.Canvas(pdf_filename, pagesize=letter)
 
-                logo_path = "img/clinica.ico"    #INGRESO DEL BANER PARA EL DOCUMENTO O HISTORIA A IMPRIMIR 
-                c.drawImage(logo_path, x=50, y=650)
+                logo_path = "img/acg2.png"    #INGRESO DEL BANER PARA EL DOCUMENTO O HISTORIA A IMPRIMIR 
+                c.drawImage(logo_path, x=50, y=650, width=150, height=100)
 
                 detalle = "Detalle: {}".format(datos[5])
 
                 # Escribir los datos en el PDF
                 c.drawString(50, 630, "Fecha y Hora: {}".format(datos[1]))
-                c.drawString(50, 610, "Motivo: {}".format(datos[2]))
+                c.drawString(50, 610, "Motivo Consulta: {}".format(datos[2]))
                 c.drawString(50, 590, "Examen Auxiliar: {}".format(datos[3]))
                 c.drawString(50, 570, "Tratamiento: {}".format(datos[4]))
                 c.drawString(50, 550, "Detalle: {}".format(datos[5]))
@@ -403,7 +403,7 @@ class Frame(tk.Frame):
                 print("Datos a exportar a PDF:", datos)
 
                 # Crear un nuevo archivo de texto
-                txt_filename = "historiasPdf/historia_medica_{}.docx".format(datos[0])  # Usar la fecha como nombre del archivo
+                txt_filename = "historiasPdf/historia_medica_{}.txt".format(datos[0])  # Usar la fecha como nombre del archivo
                 with open(txt_filename, 'w') as file:
                     file.write("")
                     file.write("Fecha y Hora: {}\n".format(datos[1]))
@@ -448,7 +448,7 @@ class Frame(tk.Frame):
             self.tablaHistoria.heading('#0', text='ID')
             self.tablaHistoria.heading('#1', text='Nombre y Apellidos')
             self.tablaHistoria.heading('#2', text='Fecha y Hora')
-            self.tablaHistoria.heading('#3', text='Motivo')
+            self.tablaHistoria.heading('#3', text='Motivo consulta')
             self.tablaHistoria.heading('#4', text='Examen Auxiliar')
             self.tablaHistoria.heading('#5', text='Tratamiento')
             self.tablaHistoria.heading('#6', text='Detalle')
@@ -476,7 +476,7 @@ class Frame(tk.Frame):
             self.btnEliminarHistoria.config(width=20, font=('ARIAL', 12, 'bold'), fg='#DAD5D6', bg='#890011', cursor='hand2', activebackground='#DB939C', state='disabled')
             self.btnEliminarHistoria.grid(row=2, column=2, padx=10, pady=5)
 
-            self.btnExportarPDF = tk.Button(self.topHistoriaMedica, text='Exportar a PDF', command=self.exportar_txt)
+            self.btnExportarPDF = tk.Button(self.topHistoriaMedica, text='Exportar a PDF', command=self.exportar_pdf)
             self.btnExportarPDF.config(width=20, font=('ARIAL', 12, 'bold'), fg='#DAD5D6', bg='#007C79', cursor='hand2', activebackground='#99F2F0')
             self.btnExportarPDF.grid(row=2, column=4, padx=10, pady=5)
 
@@ -506,7 +506,7 @@ class Frame(tk.Frame):
         self.frameDatosHistoria.pack(fill="both", expand="yes", pady=10, padx=20)
 
         #LABELS AGREGAR HISTORIA MEDICA
-        self.lblMotivoHistoria = tk.Label(self.frameDatosHistoria, text='Motivo de la Historia Medica', width=30, font=('ARIAL', 15,'bold'), bg='#D3D6D3')
+        self.lblMotivoHistoria = tk.Label(self.frameDatosHistoria, text='Motivo de la Consulta', width=30, font=('ARIAL', 15,'bold'), bg='#D3D6D3')
         self.lblMotivoHistoria.grid(row=0, column=0, padx=5, pady=3)
 
         self.lblExamenAuxiliarHistoria = tk.Label(self.frameDatosHistoria, text='Examen Auxiliar', width=20, font=('ARIAL', 15,'bold'), bg='#D3D6D3')
@@ -515,7 +515,7 @@ class Frame(tk.Frame):
         self.lblTratamientoHistoria = tk.Label(self.frameDatosHistoria, text='Tratamiento', width=20, font=('ARIAL', 15,'bold'), bg='#D3D6D3')
         self.lblTratamientoHistoria.grid(row=4, column=0, padx=5, pady=3)
 
-        self.lblDetalleHistoria = tk.Label(self.frameDatosHistoria, text='Detalle de la Historia Medica', width=30, font=('ARIAL', 15,'bold'), bg='#D3D6D3')
+        self.lblDetalleHistoria = tk.Label(self.frameDatosHistoria, text='Detalle de la Consulta', width=30, font=('ARIAL', 15,'bold'), bg='#D3D6D3')
         self.lblDetalleHistoria.grid(row=6, column=0, padx=5, pady=3)
 
         #ENTRYS AGREGA HISTORIA MEDICA
@@ -611,7 +611,7 @@ class Frame(tk.Frame):
             self.frameEditarHistoria.pack(fill="both", expand="yes", padx=20,pady=10)
 
             #LABEL EDITAR HISTORIA
-            self.lblMotivoEditar = tk.Label(self.frameEditarHistoria, text='Motivo de la historia', width=30, font=('ARIAL', 15, 'bold'), bg='#D3D6D3')
+            self.lblMotivoEditar = tk.Label(self.frameEditarHistoria, text='Motivo de la consulta', width=30, font=('ARIAL', 15, 'bold'), bg='#D3D6D3')
             self.lblMotivoEditar.grid(row=0, column=0, padx=5, pady=3)
 
             self.lblExamenAuxiliarEditar = tk.Label(self.frameEditarHistoria, text='Examen Auxiliar', width=30, font=('ARIAL', 15, 'bold'), bg='#D3D6D3')
@@ -620,7 +620,7 @@ class Frame(tk.Frame):
             self.lblTratamientoEditar = tk.Label(self.frameEditarHistoria, text='Tratamiento', width=30, font=('ARIAL', 15, 'bold'), bg='#D3D6D3')
             self.lblTratamientoEditar.grid(row=4, column=0, padx=5, pady=3)
 
-            self.lblDetalleEditar = tk.Label(self.frameEditarHistoria, text='Detalle de la historia', width=30, font=('ARIAL', 15, 'bold'), bg='#D3D6D3')
+            self.lblDetalleEditar = tk.Label(self.frameEditarHistoria, text='Detalle de la consulta', width=30, font=('ARIAL', 15, 'bold'), bg='#D3D6D3')
             self.lblDetalleEditar.grid(row=6, column=0, padx=5, pady=3)
 
             #ENTRYS EDITAR HISTORIA
