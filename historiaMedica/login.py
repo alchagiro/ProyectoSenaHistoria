@@ -2,6 +2,7 @@ import tkinter as tk
 from tkinter import simpledialog
 from tkinter import messagebox
 import sqlite3
+from PIL import ImageTk, Image
 from historiaMedica import main as abrir_historia_medica
 from auditoria import registrar_auditoria
 
@@ -28,10 +29,29 @@ class LoginApp:
         tk.Button(root, text="Iniciar Sesión", command=self.iniciar_sesion).grid(row=2, column=0, padx=5, pady=5)
 
         # Botón de registro de usuario
-        tk.Button(root, text="Registrar Usuario", command=self.registrar_usuario).grid(row=2, column=1, columnspan=2, padx=5, pady=5)
+        tk.Button(root, text="Registrar Usuario", command=self.registrar_usuario).grid(row=2, column=1, columnspan=1, padx=5, pady=5)
 
         # Boton de Eliminar Usuario
         tk.Button(root, text="Eliminar Usuario", command=self.eliminar_usuario).grid(row=3, column=0, columnspan=2, padx=5, pady=5)
+
+        # Insertar imagen
+        self.insertar_imagen('img/acg3.png')  # Ruta de la imagen a mostrar
+
+    def insertar_imagen(self, ruta_imagen):
+        try:
+            # Cargar la imagen usando PIL
+            imagen = Image.open(ruta_imagen)
+            imagen = imagen.resize((200, 150))  # Ajustar el tamaño de la imagen según sea necesario
+            imagen_tk = ImageTk.PhotoImage(imagen)
+            
+            # Mostrar la imagen en un widget Label
+            label_imagen = tk.Label(self.root, image=imagen_tk)
+            label_imagen.grid(row=0, column=2, rowspan=3, padx=5, pady=5)
+
+            # Guardar una referencia a la imagen para evitar que sea recolectada por el recolector de basura
+            label_imagen.image = imagen_tk
+        except Exception as e:
+            messagebox.showerror("Error", f"Error al cargar la imagen: {str(e)}")
 
     def iniciar_sesion(self):
         nombre_usuario = self.nombre_usuario.get()
