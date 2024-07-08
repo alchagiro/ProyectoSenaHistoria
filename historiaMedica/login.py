@@ -80,9 +80,9 @@ class LoginApp:
                 contraseña_almacenada = resultado[0]
                 # Verificar si la contraseña proporcionada coincide con la almacenada
                 if contraseña == contraseña_almacenada:
-                    return True, nombre_usuario
+                    return True 
                 else:
-                    return False, None
+                    return False 
             else:
                 return False  # Usuario no encontrado
             
