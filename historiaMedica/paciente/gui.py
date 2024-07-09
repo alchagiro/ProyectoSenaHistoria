@@ -174,7 +174,7 @@ class Frame(tk.Frame):
         self.topCalendario.title("FECHA NACIMIENTO")
         self.topCalendario.resizable(0,0)
         self.topCalendario.iconbitmap('img/clinica.ico')
-        self.topCalendario.config(bg='#CDD8FF')
+        self.topCalendario.config(bg='#D3D6D3')
 
         self.svCalendario = StringVar(value='01-01-1990')
         self.calendar = tc.Calendar(self.topCalendario, selectmode='day', year=1990, month=1, day=1, locale ='es_US', bg='#777777', fg='#FFFFFF', headersbackground='#B6DDFE', textvariable=self.svCalendario, cursor = 'hand2', date_pattern='dd-mm-Y')
@@ -232,7 +232,7 @@ class Frame(tk.Frame):
             editarDatoPaciente(persona, self.idPersona)
 
         
-
+    
         
         self.deshabilitar()
         self.tablaPaciente()

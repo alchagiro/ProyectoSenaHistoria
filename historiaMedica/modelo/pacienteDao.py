@@ -34,7 +34,7 @@ def guardarDatoPaciente(persona):
         title = 'Registrar Paciente'
         mensaje = 'Paciente Registrado Exitosamente'
         messagebox.showinfo(title, mensaje)
-        registrar_auditoria('Registro de Paciente')
+        registrar_auditoria('Registro de Paciente', persona.nombre)
     except:
         title = 'Registrar Paciente'
         mensaje = 'Error al registrar paciente'

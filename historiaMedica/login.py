@@ -2,7 +2,7 @@ import tkinter as tk
 from tkinter import simpledialog
 from tkinter import messagebox
 import sqlite3
-from PIL import ImageTk, Image
+from PIL import ImageTk, Image # type: ignore
 from historiaMedica import main as abrir_historia_medica
 from auditoria import registrar_auditoria
 
