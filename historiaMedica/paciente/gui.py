@@ -12,6 +12,9 @@ from tkcalendar import Calendar
 from datetime import datetime, date
 from reportlab.lib.pagesizes import letter
 from reportlab.pdfgen import canvas
+from reportlab.lib.styles import getSampleStyleSheet
+from reportlab.platypus import SimpleDocTemplate, Paragraph
+from reportlab.lib import colors
 from auditoria import registrar_auditoria
 
 
@@ -351,34 +354,35 @@ class Frame(tk.Frame):
  
     def exportar_pdf(self):
         try:
-            # Obtener los datos seleccionados en la tabla de historias médicas
             seleccion = self.tablaHistoria.selection()
             if seleccion:
-                # Obtener los datos de la fila seleccionada
                 item = self.tablaHistoria.item(seleccion[0])
                 datos = item['values']
 
-                # Imprimir los datos para verificar
-                print("Datos a exportar a PDF:", datos)
+                pdf_filename = "historiasPdf/historia_medica_{}.pdf".format(datos[0])
+                doc = SimpleDocTemplate(pdf_filename, pagesize=letter)
 
-                # Crear un nuevo archivo PDF
-                pdf_filename = "historiasPdf/historia_medica_{}.pdf".format(datos[0])  # Usar la fecha como nombre del archivo
-                c = canvas.Canvas(pdf_filename, pagesize=letter)
+                # Estilos para los párrafos
+                styles = getSampleStyleSheet()
+                style_normal = styles['Normal']
 
-                logo_path = "img/acg2.png"    #INGRESO DEL BANER PARA EL DOCUMENTO O HISTORIA A IMPRIMIR 
-                c.drawImage(logo_path, x=50, y=650, width=150, height=100)
+                # Contenido del documento
+                contenido = []
 
-                detalle = "Detalle: {}".format(datos[5])
+                # Agregar imagen (opcional)
+                logo_path = "img/acg2.png"
+                imagen_logo = logo_path
+                contenido.append(Paragraph('<img src="{}"width="130" height="80"/>'.format(imagen_logo), style_normal))
 
-                # Escribir los datos en el PDF
-                c.drawString(50, 630, "Fecha y Hora: {}".format(datos[1]))
-                c.drawString(50, 610, "Motivo Consulta: {}".format(datos[2]))
-                c.drawString(50, 590, "Examen Auxiliar: {}".format(datos[3]))
-                c.drawString(50, 570, "Tratamiento: {}".format(datos[4]))
-                c.drawString(50, 550, "Detalle: {}".format(datos[5]))
+                # Agregar títulos y datos como Paragraphs
+                titulos = ["PACIENTE: ","FECHA Y HORA: ", "MOTIVO CONSULTA: ", "EXAMEN AUXILIAR: ", "TRATAMIENTO: ", "DETALLE CONSULTA: "]
+                datos = datos[0:]  # Omitir el primer dato que es el identificador único
 
-                # Guardar y cerrar el PDF
-                c.save()
+                for titulo, dato in zip(titulos, datos):
+                    contenido.append(Paragraph("<b>{}</b> {}".format(titulo, dato), style_normal))
+                    contenido.append(Paragraph("----------------------------------------------------------------------------------------------------------------------------------------", style_normal))  # Añadir espacio después de cada párrafo
+
+                doc.build(contenido)
 
                 self.idHistoriaMedica = None
                 self.topHistoriaMedica.destroy()
@@ -389,7 +393,6 @@ class Frame(tk.Frame):
         except Exception as e:
             print(e)
             messagebox.showerror("Error", "Error al exportar la historia médica a PDF: {}".format(str(e)))
-
 
     def exportar_txt(self):   #AUN FALTA POR ESCRIBIR EN EL ARCHIVO
         try:
@@ -411,6 +414,8 @@ class Frame(tk.Frame):
                     file.write("Examen Auxiliar: {}\n".format(datos[3]))
                     file.write("Tratamiento: {}\n".format(datos[4]))
                     file.write("Detalle: {}\n".format(datos[5]))
+
+                self.topHistoriaMedica.destroy()
 
                 messagebox.showinfo("Exportar a TXT", "Historia médica exportada a TXT correctamente.")
             else:

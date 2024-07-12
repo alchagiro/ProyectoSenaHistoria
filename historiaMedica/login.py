@@ -59,7 +59,7 @@ class LoginApp:
         
         # Verificar las credenciales en la base de datos
         if self.verificar_credenciales(nombre_usuario, contraseña):
-            messagebox.showinfo("Inicio de Sesión", "¡Inicio de sesión exitoso!")
+            messagebox.showinfo("Inicio de Sesión","¡Inicio de sesión exitoso!")
             registrar_auditoria("Inicio Sesion", nombre_usuario)
             self.root.destroy()
             abrir_historia_medica()
